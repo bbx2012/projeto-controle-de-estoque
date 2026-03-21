@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Gestão de Almoxarifado</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <div id="login-page" class="container login-container">
+        <div class="card">
+            <div class="card-header">
+                <h2>Login</h2>
+            </div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha</label>
+                    <input type="password" id="password" required>
+                </div>
+                <button type="submit" class="success">Entrar</button>
+                <div style="text-align: center; margin-top: 15px;">
+                    <a href="#" id="show-register">Não tem conta? Cadastre-se</a>
+                </div>
+            </form>
+            <div id="login-error" class="alert alert-error hidden"></div>
+        </div>
+    </div>
+
+    <div id="register-page" class="container login-container hidden">
+        <div class="card">
+            <div class="card-header">
+                <h2>Cadastro de Usuário</h2>
+            </div>
+            <form id="register-form">
+                <div class="form-group">
+                    <label for="register-name">Nome Completo</label>
+                    <input type="text" id="register-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-email">Email</label>
+                    <input type="email" id="register-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="register-password">Senha</label>
+                    <input type="password" id="register-password" required minlength="6">
+                </div>
+                <div class="form-group">
+                    <label for="register-confirm-password">Confirmar Senha</label>
+                    <input type="password" id="register-confirm-password" required>
+                </div>
+                <button type="submit" class="success">Cadastrar</button>
+                <div style="text-align: center; margin-top: 15px;">
+                    <a href="#" id="show-login">Já tem conta? Faça login</a>
+                </div>
+            </form>
+            <div id="register-error" class="alert alert-error hidden"></div>
+            <div id="register-success" class="alert alert-success hidden"></div>
+        </div>
+    </div>
+
+    <div id="app" class="hidden">
+        <header>
+            <div class="container header-content">
+                <div class="logo">
+                    <h1>Sistema de Gestão de Almoxarifado</h1>
+                </div>
+                <div class="user-info">
+                    <span id="user-name">Usuário</span>
+                    <button id="logout-btn">Sair</button>
+                </div>
+            </div>
+        </header>
+        
+        <nav>
+            <div class="container">
+                <ul class="nav-menu">
+                    <li><a href="#" id="nav-main" class="active">Principal</a></li>
+                    <li><a href="#" id="nav-products">Cadastro de Produtos</a></li>
+                    <li><a href="#" id="nav-stock">Gestão de Estoque</a></li>
+                    <li><a href="#" id="nav-users">Usuários</a></li>
+                </ul>
+            </div>
+        </nav>
+        
+        <main class="container">
+            <div id="main-page">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Bem-vindo ao Sistema de Gestão de Almoxarifado</h2>
+                    </div>
+                    <p>Selecione uma das opções no menu acima para gerenciar produtos e estoque.</p>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Resumo do Estoque</h2>
+                    </div>
+                    <div id="stock-summary"></div>
+                </div>
+            </div>
+            
+            <div id="products-page" class="hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Cadastro de Produtos</h2>
+                        <button id="add-product-btn">Novo Produto</button>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="search-product">Buscar Produto</label>
+                        <input type="text" id="search-product" placeholder="Digite o termo de busca...">
+                    </div>
+                    
+                    <table id="products-table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Marca</th>
+                                <th>Modelo</th>
+                                <th>Material</th>
+                                <th>Estoque</th>
+                                <th>Mínimo</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                
+                <div id="product-modal" class="hidden">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 id="product-modal-title">Novo Produto</h2>
+                            <button id="close-product-modal">X</button>
+                        </div>
+                        <form id="product-form">
+                            <input type="hidden" id="product-id">
+                            <div class="form-group">
+                                <label for="product-name">Nome</label>
+                                <input type="text" id="product-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="product-brand">Marca</label>
+                                <input type="text" id="product-brand">
+                            </div>
+                            <div class="form-group">
+                                <label for="product-model">Modelo</label>
+                                <input type="text" id="product-model">
+                            </div>
+                            <div class="form-group">
+                                <label for="product-material">Tipo de Material</label>
+                                <input type="text" id="product-material">
+                            </div>
+                            <div class="form-group">
+                                <label for="product-size">Tamanho</label>
+                                <input type="text" id="product-size">
+                            </div>
+                            <div class="form-group">
+                                <label for="product-weight">Peso (kg)</label>
+                                <input type="number" step="0.01" id="product-weight">
+                            </div>
+                            <div class="form-group">
+                                <label for="product-voltage">Tensão Elétrica</label>
+                                <input type="text" id="product-voltage">
+                            </div>
+                            <div class="form-group">
+                                <label for="product-min-stock">Estoque Mínimo</label>
+                                <input type="number" id="product-min-stock" min="0" required>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="success">Salvar</button>
+                                <button type="button" id="cancel-product">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="stock-page" class="hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Gestão de Estoque</h2>
+                    </div>
+                    
+                    <div id="stock-alerts"></div>
+                    
+                    <table id="stock-table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Marca</th>
+                                <th>Modelo</th>
+                                <th>Estoque Atual</th>
+                                <th>Estoque Mínimo</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                
+                <div id="stock-modal" class="hidden">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 id="stock-modal-title">Movimentação de Estoque</h2>
+                            <button id="close-stock-modal">X</button>
+                        </div>
+                        <form id="stock-form">
+                            <input type="hidden" id="stock-product-id">
+                            <div class="form-group">
+                                <label for="movement-type">Tipo de Movimentação</label>
+                                <select id="movement-type" required>
+                                    <option value="">Selecione...</option>
+                                    <option value="entrada">Entrada</option>
+                                    <option value="saida">Saída</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="movement-date">Data da Movimentação</label>
+                                <input type="date" id="movement-date" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="movement-quantity">Quantidade</label>
+                                <input type="number" id="movement-quantity" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="movement-observation">Observação</label>
+                                <textarea id="movement-observation"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="success">Registrar Movimentação</button>
+                                <button type="button" id="cancel-stock">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="users-page" class="hidden">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Gerenciamento de Usuários</h2>
+                        <button id="add-user-btn">Novo Usuário</button>
+                    </div>
+                    
+                    <table id="users-table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Data de Cadastro</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+                
+                <div id="user-modal" class="hidden">
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 id="user-modal-title">Novo Usuário</h2>
+                            <button id="close-user-modal">X</button>
+                        </div>
+                        <form id="user-form">
+                            <input type="hidden" id="user-id">
+                            <div class="form-group">
+                                <label for="user-name">Nome Completo</label>
+                                <input type="text" id="user-name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="user-email">Email</label>
+                                <input type="email" id="user-email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="user-password">Senha</label>
+                                <input type="password" id="user-password" required minlength="6">
+                            </div>
+                            <div class="form-group">
+                                <label for="user-confirm-password">Confirmar Senha</label>
+                                <input type="password" id="user-confirm-password" required>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="success">Salvar</button>
+                                <button type="button" id="cancel-user">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="/Js/script.js"></script>
+</body>
+</html>
